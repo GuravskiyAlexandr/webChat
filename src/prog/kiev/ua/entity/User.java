@@ -7,10 +7,10 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 public class User {
-    String login;
-    String password;
-    Date date;
-    HttpSession httpSession;
+    private String login;
+    private String password;
+    private Date date;
+    private HttpSession httpSession;
 
 
     public User(String login, String password, Date date, HttpSession httpSession) {
@@ -18,10 +18,6 @@ public class User {
         this.password = password;
         this.date = date;
         this.httpSession = httpSession;
-    }
-
-    public User(HttpSession session) {
-
     }
 
     @Override

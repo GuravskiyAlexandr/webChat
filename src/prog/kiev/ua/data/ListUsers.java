@@ -7,17 +7,18 @@ import prog.kiev.ua.entity.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ListUsers {
     private static final ListUsers classUserList = new ListUsers();
-    private List<User> userList = new ArrayList<>();
-    private HashMap<String, User> mapLoginAngUser = new HashMap<>();
+    private List<String> userList = new ArrayList<>();
+    private Map<String, User> mapLoginAngUser = new HashMap<>();
 
-    public HashMap<String, User> getMapLoginAngUser() {
+    public Map<String, User> getMapLoginAngUser() {
         return mapLoginAngUser;
     }
 
-    public void setMapSession(String user, User session) {
+    public void setMapLoginAngUser(String user, User session) {
         mapLoginAngUser.put(user, session);
     }
 
@@ -25,24 +26,20 @@ public class ListUsers {
         return classUserList;
     }
 
-    public ListUsers(List<User> list) {
+    public ListUsers(List<String> list) {
         this.userList = list;
     }
 
     public ListUsers(){
     }
     public boolean checkUserLog(String log){
-        if (userList.stream().anyMatch((s)-> (s.getLogin().equals(log))) ) return true;
+        if (userList.stream().anyMatch((s)-> (s.equals(log))) ) return true;
         return false;
     }
 
     public boolean checkUsersPass(String pass) {
-        if (userList.stream().anyMatch((s)-> (s.getPassword().equals(pass))))return true;
+        if (userList.stream().anyMatch((s)-> (s.equals(pass))))return true;
         return false;
-    }
-
-    public synchronized void  addUser(User user) {
-        userList.add(user);
     }
 
     public List getListUsers() {

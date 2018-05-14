@@ -11,17 +11,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-public class LoginServlet extends HttpServlet {
-    private ListUsers listUsers = ListUsers.getClassUserList();
+public class  LoginServlet extends HttpServlet {
+    private ListUsers classUserList = ListUsers.getClassUserList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        if (listUsers.checkUserLog(login, password)) {
+        if (classUserList.checkUserLog(login, password)) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user_login", login);
-                listUsers.getMapLoginAngUser().get(login).setHttpSession(session);
+                classUserList.getMapLoginAngUser().get(login).setHttpSession(session);
                 response.sendRedirect("chat.jsp");
         } else {
             response.sendRedirect("index.jsp");

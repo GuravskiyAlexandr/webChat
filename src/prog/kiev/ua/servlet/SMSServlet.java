@@ -5,7 +5,6 @@ package prog.kiev.ua.servlet;/*
 import prog.kiev.ua.data.ListUsers;
 import prog.kiev.ua.data.MessageList;
 import prog.kiev.ua.entity.Message;
-import prog.kiev.ua.entity.User;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,24 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SMSServlet extends HttpServlet {
-    private ListUsers listUsers = ListUsers.getClassUserList();
-    private MessageList messageList = MessageList.getMsgList();
+    private ListUsers classUserList = ListUsers.getClassUserList();
+    private MessageList messageList = MessageList.getClassMsgList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
         String text = request.getParameter("textSend");
-        HttpSession session = listUsers.getMapLoginAngUser().get(login).getHttpSession();
+        HttpSession session = classUserList.getMapLoginAngUser().get(login).getHttpSession();
         List list = new ArrayList();
         if (session != null) {
             Message message = new Message(login, text);
             messageList.getList().add(message);
             if (messageList.getList() != null) {
                 session.setAttribute("sms", messageList.getList());
-                for (Object obj : listUsers.getListUsers()) {
-                    User user = (User) obj;
+                for (Object obj : classUserList.getListUsers()) {
+                    String name = (String) obj;
                     String color;
-                    String name = user.getLogin();
-                    if (user.getHttpSession() != null){
+                    if (classUserList.getMapLoginAngUser().get(name).getHttpSession()!= null){
                         color = "green";
                     }else {
                         color = "black";

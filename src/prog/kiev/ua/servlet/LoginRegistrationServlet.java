@@ -12,18 +12,18 @@ import java.io.IOException;
 import java.util.Date;
 
 public class LoginRegistrationServlet extends HttpServlet {
-    private ListUsers listUsers = ListUsers.getClassUserList();
+    private ListUsers classUserList = ListUsers.getClassUserList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         if (login.length() > 2 && password.length() > 2) {
-            if (!listUsers.checkUserLog(login)) {
+            if (!classUserList.checkUserLog(login)) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user_login", login);
                 User user = new User(login, password, new Date(), session);
-                listUsers.getListUsers().add(user);
-                listUsers.setMapSession(login, user);
+                classUserList.getListUsers().add(login);
+                classUserList.setMapLoginAngUser(login, user);
                 response.sendRedirect("chat.jsp");
             } else {
                 response.sendRedirect("index.jsp");
@@ -46,17 +46,12 @@ public class LoginRegistrationServlet extends HttpServlet {
             session.removeAttribute("user_login");
             session.invalidate();
             session = null;
-            listUsers.getMapLoginAngUser().get(login).setHttpSession(session);
-            for (int i = 0; i < listUsers.getListUsers().size(); i++) {
-                User s = (User) listUsers.getListUsers().get(i);
-                if (login.equals(s.getLogin())) {
-
-                    s.setHttpSession(session);
-                    listUsers.getListUsers().set(i, s);
+            classUserList.getMapLoginAngUser().get(login).setHttpSession(session);
+            for (int i = 0; i < classUserList.getListUsers().size(); i++) {
+                String name = (String) classUserList.getListUsers().get(i);
+                if (login.equals(name)) {
+                    classUserList.getMapLoginAngUser().get(name).setHttpSession(session);
                 }
-            }
-            for (int i = 0; i < listUsers.getListUsers().size(); i++) {
-                User s = (User) listUsers.getListUsers().get(i);
             }
         }
         response.sendRedirect("index.jsp");
