@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Date;
 
 public class LoginRegistrationServlet extends HttpServlet {
-    private ListUsers listUsers = ListUsers.getUsrList();
+    private ListUsers listUsers = ListUsers.getClassUserList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
@@ -24,15 +24,15 @@ public class LoginRegistrationServlet extends HttpServlet {
                 User user = new User(login, password, new Date(), session);
                 listUsers.getListUsers().add(user);
                 listUsers.setMapSession(login, user);
-                System.out.println(listUsers.getMapLoginAngUser());
                 response.sendRedirect("chat.jsp");
             } else {
                 response.sendRedirect("index.jsp");
             }
+
         } else {
             response.sendRedirect("index.jsp");
         }
-        System.out.println(listUsers.getMapLoginAngUser().get(login).getHttpSession() + " 1");
+
     }
 
 
@@ -41,15 +41,22 @@ public class LoginRegistrationServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         String login = (String) session.getAttribute("user_login");
+        System.out.println(login + "   user_login");
         if ("exit".equals(sessionUser) && (session != null)) {
             session.removeAttribute("user_login");
             session.invalidate();
+            session = null;
             listUsers.getMapLoginAngUser().get(login).setHttpSession(session);
-            for (int i = 0; i < listUsers.getListUsers().size(); i++ ){
+            for (int i = 0; i < listUsers.getListUsers().size(); i++) {
                 User s = (User) listUsers.getListUsers().get(i);
                 if (login.equals(s.getLogin())) {
-                    listUsers.getListUsers().set(i, session);
+
+                    s.setHttpSession(session);
+                    listUsers.getListUsers().set(i, s);
                 }
+            }
+            for (int i = 0; i < listUsers.getListUsers().size(); i++) {
+                User s = (User) listUsers.getListUsers().get(i);
             }
         }
         response.sendRedirect("index.jsp");

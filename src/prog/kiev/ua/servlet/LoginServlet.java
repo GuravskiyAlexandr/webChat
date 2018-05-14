@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 public class LoginServlet extends HttpServlet {
-    private ListUsers listUsers = ListUsers.getUsrList();
+    private ListUsers listUsers = ListUsers.getClassUserList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("user_login", login);
                 listUsers.getMapLoginAngUser().get(login).setHttpSession(session);
                 response.sendRedirect("chat.jsp");
-                System.out.println(session.getAttributeNames());
         } else {
             response.sendRedirect("index.jsp");
         }

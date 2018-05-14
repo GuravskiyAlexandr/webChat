@@ -2,7 +2,6 @@ package prog.kiev.ua.servlet;/*
  * Created by Alexsandr        13.05.2018
  */
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import prog.kiev.ua.data.ListUsers;
 import prog.kiev.ua.data.MessageList;
 import prog.kiev.ua.entity.Message;
@@ -15,16 +14,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SMSServlet extends HttpServlet {
-    private ListUsers listUsers = ListUsers.getUsrList();
+    private ListUsers listUsers = ListUsers.getClassUserList();
     private MessageList messageList = MessageList.getMsgList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
         String text = request.getParameter("textSend");
-
         HttpSession session = listUsers.getMapLoginAngUser().get(login).getHttpSession();
         List list = new ArrayList();
         if (session != null) {
@@ -32,7 +29,6 @@ public class SMSServlet extends HttpServlet {
             messageList.getList().add(message);
             if (messageList.getList() != null) {
                 session.setAttribute("sms", messageList.getList());
-                System.out.println(login+ " " + listUsers.getListUsers());
                 for (Object obj : listUsers.getListUsers()) {
                     User user = (User) obj;
                     String color;
@@ -51,13 +47,5 @@ public class SMSServlet extends HttpServlet {
             }
         }
 
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        String sessionUser = request.getParameter("session");
-        HttpSession session = request.getSession(false);
-        if ("exit".equals(sessionUser) && (session != null))
-            session.removeAttribute("user_login");
-        response.sendRedirect("index.jsp");
     }
 }
