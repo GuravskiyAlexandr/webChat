@@ -8,6 +8,7 @@
 <html>
 <head>
   <title>Prog.kiev.ua</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
 <body>
 <% String login = (String)session.getAttribute("user_login"); %>

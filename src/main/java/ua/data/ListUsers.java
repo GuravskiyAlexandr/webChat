@@ -1,8 +1,8 @@
-package prog.kiev.ua.data;
+package ua.data;
 
 
 
-import prog.kiev.ua.entity.User;
+import ua.entity.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,15 +11,19 @@ import java.util.Map;
 
 public class ListUsers {
     private static final ListUsers classUserList = new ListUsers();
-    private List<String> userList = new ArrayList<>();
+    private List<String> userNameList = new ArrayList<>();
     private Map<String, User> mapLoginAngUser = new HashMap<>();
 
     public Map<String, User> getMapLoginAngUser() {
         return mapLoginAngUser;
     }
 
-    public void setMapLoginAngUser(String user, User session) {
+    public synchronized   void   setMapLoginAngUser(String user, User session) {
         mapLoginAngUser.put(user, session);
+    }
+
+    public synchronized void setUserNameList(String name) {
+        userNameList.add(name);
     }
 
     public static ListUsers getClassUserList() {
@@ -27,23 +31,23 @@ public class ListUsers {
     }
 
     public ListUsers(List<String> list) {
-        this.userList = list;
+        this.userNameList = list;
     }
 
     public ListUsers(){
     }
     public boolean checkUserLog(String log){
-        if (userList.stream().anyMatch((s)-> (s.equals(log))) ) return true;
+        if (userNameList.stream().anyMatch((s)-> (s.equals(log))) ) return true;
         return false;
     }
 
     public boolean checkUsersPass(String pass) {
-        if (userList.stream().anyMatch((s)-> (s.equals(pass))))return true;
+        if (userNameList.stream().anyMatch((s)-> (s.equals(pass))))return true;
         return false;
     }
 
     public List getListUsers() {
-       return userList;
+       return userNameList;
     }
 
     public boolean checkUserLog(String login, String password) {

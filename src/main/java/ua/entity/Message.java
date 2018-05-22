@@ -1,4 +1,4 @@
-package prog.kiev.ua.entity;
+package ua.entity;
 
 
 import com.google.gson.Gson;

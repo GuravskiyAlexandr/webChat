@@ -1,8 +1,8 @@
-package prog.kiev.ua.data;/*
+package ua.data;/*
  * Created by Alexsandr        13.05.2018
  */
 
-import prog.kiev.ua.entity.Message;
+import ua.entity.Message;
 
 import java.util.LinkedList;
 import java.util.List;

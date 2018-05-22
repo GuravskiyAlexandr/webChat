@@ -5,7 +5,7 @@
          version="3.1">
     <servlet>
         <servlet-name>RegistServlet</servlet-name>
-        <servlet-class>prog.kiev.ua.servlet.LoginRegistrationServlet</servlet-class>
+        <servlet-class>ua.servlet.LoginRegistrationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistServlet</servlet-name>
@@ -14,7 +14,7 @@
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>prog.kiev.ua.servlet.LoginServlet</servlet-class>
+        <servlet-class>ua.servlet.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -24,12 +24,22 @@
 
     <servlet>
         <servlet-name>Send</servlet-name>
-        <servlet-class>prog.kiev.ua.servlet.SMSServlet</servlet-class>
+        <servlet-class>ua.servlet.SMSServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Send</servlet-name>
         <!--начинаем с "/" обезательно-->
         <url-pattern>/send</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Check</servlet-name>
+        <servlet-class>ua.servlet.CheckServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Check</servlet-name>
+        <!--начинаем с "/" обезательно-->
+        <url-pattern>/check</url-pattern>
     </servlet-mapping>
 
 

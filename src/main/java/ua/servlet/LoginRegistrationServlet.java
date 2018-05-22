@@ -1,8 +1,8 @@
-package prog.kiev.ua.servlet;
+package ua.servlet;
 
 
-import prog.kiev.ua.data.ListUsers;
-import prog.kiev.ua.entity.User;
+import ua.data.ListUsers;
+import ua.entity.User;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,15 +20,19 @@ public class LoginRegistrationServlet extends HttpServlet {
         if (login.length() > 2 && password.length() > 2) {
             if (!classUserList.checkUserLog(login)) {
                 HttpSession session = request.getSession(true);
+                session.setMaxInactiveInterval(15);
+                System.out.println(new Date(session.getLastAccessedTime()));
                 session.setAttribute("user_login", login);
-                User user = new User(login, password, new Date(), session);
-                classUserList.getListUsers().add(login);
+                Thread thread = new Thread(new OnlineListUser(login));
+                thread.isDaemon();
+                User user = new User(login, password, new Date(), session, thread);
+                classUserList.setUserNameList(login);
                 classUserList.setMapLoginAngUser(login, user);
+                thread.start();
                 response.sendRedirect("chat.jsp");
             } else {
                 response.sendRedirect("index.jsp");
             }
-
         } else {
             response.sendRedirect("index.jsp");
         }
@@ -42,7 +46,7 @@ public class LoginRegistrationServlet extends HttpServlet {
 
         String login = (String) session.getAttribute("user_login");
         System.out.println(login + "   user_login");
-        if ("exit".equals(sessionUser) && (session != null)) {
+        if ("exit".equals(sessionUser)) {
             session.removeAttribute("user_login");
             session.invalidate();
             session = null;
@@ -50,7 +54,10 @@ public class LoginRegistrationServlet extends HttpServlet {
             for (int i = 0; i < classUserList.getListUsers().size(); i++) {
                 String name = (String) classUserList.getListUsers().get(i);
                 if (login.equals(name)) {
-                    classUserList.getMapLoginAngUser().get(name).setHttpSession(session);
+                    User user = classUserList.getMapLoginAngUser().get(name);
+                    user.setHttpSession(session);
+                    user.getThread().interrupt();
+                    classUserList.setMapLoginAngUser(name, user);
                 }
             }
         }
