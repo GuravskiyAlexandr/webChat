@@ -22,7 +22,6 @@ public class SMSServlet extends HttpServlet {
         String login = request.getParameter("login");
         String text = request.getParameter("textSend");
         String to = classUserList.getMapLoginAngUser().get(login).getToWhom();
-        System.out.println(to + "  to "+login+ "  login" );
         HttpSession session = request.getSession();
 
 

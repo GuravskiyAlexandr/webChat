@@ -21,7 +21,6 @@ public class LoginRegistrationServlet extends HttpServlet {
             if (!classUserList.checkUserLog(login)) {
                 HttpSession session = request.getSession(true);
                 session.setMaxInactiveInterval(15);
-                System.out.println(new Date(session.getLastAccessedTime()));
                 session.setAttribute("user_login", login);
                 Thread thread = new Thread(new OnlineListUser(login));
                 thread.isDaemon();

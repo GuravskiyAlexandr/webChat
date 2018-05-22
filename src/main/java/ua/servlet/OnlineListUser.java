@@ -48,7 +48,6 @@ public class OnlineListUser implements Runnable {
                         classListUsers.getMapLoginAngUser().get(name).setHttpSession(null);
                         e.getStackTrace();
                     }
-
                 }
             }
             try {
